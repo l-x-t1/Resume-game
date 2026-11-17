@@ -105,3 +105,14 @@ jianligame/
 ## 浏览器兼容
 
 Chrome / Edge / Firefox / Safari 现代版本（使用 IntersectionObserver、CSS Grid、CSS 变量、Clipboard API 并带降级方案）。
+
+---
+
+## 🎮 RAG RESCUE 技术小游戏
+
+位于 Interactive Lab 与 Experience 之间的独立入口卡片，点击 **PLAY GAME** 进入全屏游戏面板（退出后原页面滚动位置保持不变）。
+
+- **玩法**：扮演 AI 系统工程师，通过拖拽组件、连接节点、修改参数搭建并修复故障的 RAG 工作流；本地确定性模拟（检索质量 / 答案依据 / 耗时 / 资源预算），不接入真实模型。
+- **三关**：修复低质量检索 → 混合检索优化（BM25 + Vector + RRF）→ 答案质量优化（Reranker + Evaluation + Citation Validation）。
+- **操作**：桌面端拖拽 / 连线 / Delete 删除；移动端点击添加、点击连接；错误配置（预算超支、通道冲突、缺输入等）会被诊断面板识别。
+- **代码**：`css/minigame.css`（独立 `.rgame` 命名空间）+ `js/minigame.js`（IIFE 封装），除 index.html 中新增的入口、容器与引用外，不修改任何现有文件。

@@ -1,0 +1,603 @@
+/* ============================================================
+   minigame.css — RAG RESCUE 技术小游戏
+   独立命名空间：.rgame（游戏面板）/ .rgame-entry（入口卡片）
+   不影响网站任何现有样式；深色工程实验室风格，仅作用于游戏内部。
+   ============================================================ */
+
+/* ---------------- 入口卡片（浅色区，与网站风格呼应） ---------------- */
+.rgame-entry {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 20px;
+}
+.rgame-entry__card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: #10151F;
+  color: #F7F5EF;
+  border: 2px solid #202633;
+  border-radius: 18px;
+  padding: 30px 34px;
+  box-shadow: 8px 8px 0 rgba(36, 73, 232, 0.18);
+}
+.rgame-entry__glow {
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #4d6bff, #2449E8 65%);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.rgame-entry__tag {
+  display: inline-block;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 10.5px;
+  letter-spacing: 2px;
+  color: #FF875D;
+  border: 1px solid rgba(255, 135, 93, 0.5);
+  border-radius: 99px;
+  padding: 4px 12px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+.rgame-entry__title {
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 900;
+  letter-spacing: 1px;
+  line-height: 1.05;
+}
+.rgame-entry__sub {
+  margin-top: 8px;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 13px;
+  color: #9FB0D0;
+}
+.rgame-entry__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  background: #2449E8;
+  color: #F7F5EF;
+  border: 2px solid #5B7CFF;
+  border-radius: 99px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s;
+  box-shadow: 4px 4px 0 rgba(255, 135, 93, 0.55);
+}
+.rgame-entry__btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgba(255, 135, 93, 0.7);
+}
+.rgame-entry__note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #6B7280;
+  font-family: "Cascadia Code", Consolas, monospace;
+}
+@media (max-width: 640px) {
+  .rgame-entry__card { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------------- 游戏全屏面板 ---------------- */
+.rgame {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: #0B0F18;
+  color: #E8EDF7;
+  display: flex;
+  flex-direction: column;
+  font-family: "Segoe UI", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+.rgame *,
+.rgame *::before,
+.rgame *::after { box-sizing: border-box; }
+.rgame button { font-family: inherit; cursor: pointer; }
+
+.rgame__frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-width: 1500px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 12px;
+  gap: 10px;
+}
+
+/* 顶栏 */
+.rgame__topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: #121826;
+  border: 1px solid #232D44;
+  border-radius: 12px;
+  padding: 10px 16px;
+}
+.rgame__brand { display: flex; flex-direction: column; }
+.rgame__logo {
+  font-weight: 900;
+  font-size: 17px;
+  letter-spacing: 1.5px;
+  color: #5B7CFF;
+}
+.rgame__tagline {
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 9.5px;
+  letter-spacing: 1.5px;
+  color: #67718C;
+}
+.rgame__levels { display: flex; gap: 6px; }
+.rgame__lvl {
+  padding: 7px 13px;
+  background: #0B0F18;
+  border: 1px solid #2A3550;
+  border-radius: 8px;
+  color: #9FB0D0;
+  font-size: 12px;
+  font-weight: 700;
+  transition: border-color 0.2s, color 0.2s;
+}
+.rgame__lvl.is-current { border-color: #5B7CFF; color: #E8EDF7; }
+.rgame__lvl.is-cleared { border-color: #3ECF8E; color: #3ECF8E; }
+.rgame__lvl:disabled { opacity: 0.4; cursor: not-allowed; }
+.rgame__status {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-left: auto;
+  font-size: 11px;
+  color: #67718C;
+}
+.rgame__stat b {
+  display: block;
+  font-size: 15px;
+  color: #E8EDF7;
+  font-family: "Cascadia Code", Consolas, monospace;
+}
+.rgame__stat b.is-good { color: #3ECF8E; }
+.rgame__stat b.is-bad { color: #FF5D5D; }
+.rgame__exit {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #3A4560;
+  border-radius: 8px;
+  color: #9FB0D0;
+  font-size: 12px;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.rgame__exit:hover { border-color: #FF5D5D; color: #FF5D5D; }
+
+/* 关卡目标条 */
+.rgame__goal {
+  background: #121826;
+  border: 1px solid #232D44;
+  border-left: 4px solid #FF875D;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #C6D1E8;
+}
+.rgame__goal b { color: #FF875D; }
+
+/* 主区三栏 */
+.rgame__main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 190px 1fr 230px;
+  gap: 10px;
+  min-height: 0;
+}
+
+/* 左侧组件栏 */
+.rgame__sidebar {
+  background: #121826;
+  border: 1px solid #232D44;
+  border-radius: 12px;
+  padding: 12px;
+  overflow-y: auto;
+}
+.rgame__sidebar h4,
+.rgame__panel h4,
+.rgame__logs-wrap h4,
+.rgame__diag-wrap h4 {
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #5B7CFF;
+  margin-bottom: 8px;
+}
+.rgame__hint { font-size: 10.5px; color: #67718C; margin-bottom: 10px; }
+.rgame__comps { display: flex; flex-direction: column; gap: 7px; }
+.rgame__comp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  background: #0B0F18;
+  border: 1px solid #2A3550;
+  border-radius: 9px;
+  color: #C6D1E8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.rgame__comp:active { cursor: grabbing; }
+.rgame__comp:hover { border-color: #5B7CFF; transform: translateX(2px); }
+.rgame__comp i {
+  width: 9px; height: 9px;
+  border-radius: 3px;
+  flex: 0 0 auto;
+}
+.rgame__comp small {
+  margin-left: auto;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 9.5px;
+  color: #67718C;
+}
+.rgame__sidehelp {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed #2A3550;
+  font-size: 10.5px;
+  line-height: 1.7;
+  color: #67718C;
+}
+.rgame__sidehelp b { color: #9FB0D0; }
+
+/* 画布区 */
+.rgame__stage { display: flex; flex-direction: column; gap: 8px; min-width: 0; min-height: 0; }
+.rgame__canvas-wrap {
+  flex: 1;
+  min-height: 0;
+  background: #0B0F18;
+  border: 1px solid #232D44;
+  border-radius: 12px;
+  overflow: auto;
+  position: relative;
+}
+.rgame__canvas {
+  position: relative;
+  width: 2400px;
+  height: 1600px;
+  background-image: radial-gradient(#1C2438 1.2px, transparent 1.2px);
+  background-size: 26px 26px;
+}
+.rgame__edges { position: absolute; inset: 0; pointer-events: none; }
+.rgame__edge-hit { pointer-events: stroke; cursor: pointer; }
+.rgame__edge-line { pointer-events: none; }
+.rgame__edge-line.is-active { stroke: #FF875D; stroke-width: 2.5; filter: drop-shadow(0 0 4px rgba(255,135,93,0.7)); }
+
+/* 节点 */
+.rgame__node {
+  position: absolute;
+  width: 158px;
+  background: #161D2E;
+  border: 1.5px solid #33406A;
+  border-radius: 10px;
+  padding: 9px 11px 9px 20px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.rgame__node.is-dragging { cursor: grabbing; z-index: 30; }
+.rgame__node.is-selected { border-color: #5B7CFF; box-shadow: 0 0 0 2px rgba(91, 124, 255, 0.25); }
+.rgame__node.is-running { border-color: #FF875D; box-shadow: 0 0 0 2px rgba(255, 135, 93, 0.3); }
+.rgame__node.is-shake { animation: rgame-shake 0.3s; }
+@keyframes rgame-shake {
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+.rgame__node::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 13px;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--nc, #5B7CFF);
+}
+.rgame__node-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #E8EDF7;
+  line-height: 1.25;
+}
+.rgame__node-param {
+  margin-top: 3px;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 9.5px;
+  color: #67718C;
+}
+/* 连接端口 */
+.rgame__port {
+  position: absolute;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  margin-top: -7.5px;
+  border-radius: 50%;
+  background: #0B0F18;
+  border: 2px solid #4A5B8C;
+  cursor: crosshair;
+  z-index: 5;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.rgame__port:hover { transform: scale(1.25); }
+.rgame__port--in { left: -8px; }
+.rgame__port--out { right: -8px; border-color: #FF875D; }
+.rgame__port.is-pending { border-color: #FF875D; background: #FF875D; animation: rgame-pulse 0.9s infinite; }
+@keyframes rgame-pulse {
+  50% { box-shadow: 0 0 0 6px rgba(255, 135, 93, 0.18); }
+}
+
+/* 运行条 */
+.rgame__runbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.rgame__run {
+  padding: 11px 24px;
+  background: #2449E8;
+  border: 1px solid #5B7CFF;
+  border-radius: 9px;
+  color: #F7F5EF;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 3px 3px 0 rgba(255, 135, 93, 0.5);
+}
+.rgame__run:hover { transform: translate(-1px, -1px); }
+.rgame__run:disabled { opacity: 0.55; cursor: wait; transform: none; }
+.rgame__reset {
+  padding: 11px 16px;
+  background: transparent;
+  border: 1px solid #2A3550;
+  border-radius: 9px;
+  color: #9FB0D0;
+  font-size: 12px;
+  font-weight: 600;
+  transition: border-color 0.2s, color 0.2s;
+}
+.rgame__reset:hover { border-color: #9FB0D0; color: #E8EDF7; }
+.rgame__selectinfo {
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 11px;
+  color: #67718C;
+  margin-left: auto;
+}
+.rgame__selectinfo b { color: #FF875D; }
+
+/* 右侧配置面板 */
+.rgame__panel {
+  background: #121826;
+  border: 1px solid #232D44;
+  border-radius: 12px;
+  padding: 12px;
+  overflow-y: auto;
+}
+.rgame__cfg { font-size: 12px; color: #9FB0D0; }
+.rgame__cfg-empty { color: #67718C; font-size: 11.5px; line-height: 1.7; }
+.rgame__cfg-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #E8EDF7;
+  margin-bottom: 4px;
+}
+.rgame__cfg-title i { width: 9px; height: 9px; border-radius: 3px; background: var(--nc, #5B7CFF); }
+.rgame__cfg-desc { font-size: 11px; color: #67718C; margin-bottom: 12px; line-height: 1.6; }
+.rgame__field { margin-bottom: 12px; }
+.rgame__field label {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #9FB0D0;
+  margin-bottom: 6px;
+}
+.rgame__field label output { color: #FF875D; }
+.rgame__field select,
+.rgame__field input[type="range"] { width: 100%; }
+.rgame__field select {
+  background: #0B0F18;
+  border: 1px solid #2A3550;
+  color: #E8EDF7;
+  border-radius: 7px;
+  padding: 7px 8px;
+  font-size: 12px;
+}
+.rgame__field input[type="range"] { accent-color: #5B7CFF; }
+.rgame__cfg-meta {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #2A3550;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 10px;
+  color: #67718C;
+  line-height: 1.8;
+}
+.rgame__delbtn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 9px;
+  background: transparent;
+  border: 1px solid #5A2A35;
+  border-radius: 8px;
+  color: #FF5D5D;
+  font-size: 12px;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.rgame__delbtn:hover { background: rgba(255, 93, 93, 0.12); border-color: #FF5D5D; }
+
+/* 底部日志与诊断 */
+.rgame__bottom {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 10px;
+  height: 150px;
+  flex: 0 0 auto;
+}
+.rgame__logs-wrap,
+.rgame__diag-wrap {
+  background: #121826;
+  border: 1px solid #232D44;
+  border-radius: 12px;
+  padding: 10px 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.rgame__logs,
+.rgame__diag {
+  flex: 1;
+  overflow-y: auto;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 10.8px;
+  line-height: 1.75;
+  color: #8B98B8;
+}
+.rgame__logs .lg-ok { color: #3ECF8E; }
+.rgame__logs .lg-warn { color: #FFB35D; }
+.rgame__logs .lg-err { color: #FF5D5D; }
+.rgame__logs .lg-info { color: #5B7CFF; }
+.rgame__diag .dg { display: flex; gap: 8px; margin-bottom: 6px; align-items: flex-start; }
+.rgame__diag .dg i { flex: 0 0 auto; font-style: normal; }
+.rgame__diag .dg-ok { color: #3ECF8E; }
+.rgame__diag .dg-warn { color: #FFB35D; }
+.rgame__diag .dg-err { color: #FF5D5D; }
+.rgame__diag .dg-info { color: #8B98B8; }
+
+/* 通关浮层 */
+.rgame__win {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 15, 24, 0.86);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  padding: 20px;
+}
+.rgame__win-card {
+  background: #121826;
+  border: 2px solid #3ECF8E;
+  border-radius: 16px;
+  padding: 30px 36px;
+  text-align: center;
+  max-width: 420px;
+  animation: rgame-pop 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes rgame-pop {
+  from { transform: scale(0.9); opacity: 0; }
+}
+.rgame__win-card h3 {
+  font-size: 24px;
+  font-weight: 900;
+  color: #3ECF8E;
+  letter-spacing: 1px;
+}
+.rgame__win-card.is-final h3 { color: #FF875D; }
+.rgame__win-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 18px 0;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 11px;
+  color: #67718C;
+}
+.rgame__win-metrics b {
+  display: block;
+  font-size: 20px;
+  color: #E8EDF7;
+}
+.rgame__win-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.rgame__win-actions button {
+  padding: 10px 20px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid #2A3550;
+  background: transparent;
+  color: #C6D1E8;
+  transition: all 0.2s;
+}
+.rgame__win-actions button.is-primary {
+  background: #2449E8;
+  border-color: #5B7CFF;
+  color: #F7F5EF;
+}
+.rgame__win-actions button:hover { border-color: #5B7CFF; }
+
+/* 拖拽跟随提示 */
+.rgame__ghost {
+  position: fixed;
+  z-index: 600;
+  pointer-events: none;
+  background: #161D2E;
+  border: 1px solid #5B7CFF;
+  color: #C6D1E8;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transform: translate(-50%, -130%);
+}
+
+/* ---------------- 移动端 ---------------- */
+@media (max-width: 900px) {
+  .rgame__frame { padding: 8px; gap: 8px; }
+  .rgame__topbar { gap: 10px; }
+  .rgame__status { margin-left: 0; width: 100%; order: 5; }
+  .rgame__main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    overflow-y: auto;
+  }
+  .rgame__sidebar { order: 1; }
+  .rgame__comps { flex-direction: row; flex-wrap: wrap; }
+  .rgame__comp { flex: 1 1 45%; }
+  .rgame__sidehelp { display: none; }
+  .rgame__stage { order: 2; }
+  .rgame__canvas-wrap { min-height: 300px; max-height: 46vh; }
+  .rgame__panel { order: 3; max-height: 32vh; }
+  .rgame__bottom { grid-template-columns: 1fr; height: auto; }
+  .rgame__logs, .rgame__diag { max-height: 90px; }
+}
+
+/* 游戏内减少动效 */
+@media (prefers-reduced-motion: reduce) {
+  .rgame *, .rgame-entry * { animation: none !important; transition: none !important; }
+}

@@ -7,6 +7,7 @@
   <meta name="description" content="李湘婷的个人作品集：大模型应用开发、Agent 系统与 RAG 技术。Agentic RAG、多 Agent 协作、Java 后端项目实践。" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232449E8'/><text x='50' y='68' font-size='52' font-family='Arial' font-weight='900' fill='%23F7F5EF' text-anchor='middle'>X</text></svg>" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/minigame.css" />
 </head>
 <body>
 
@@ -213,6 +214,22 @@
       </div>
     </section>
 
+    <!-- ======================= RAG RESCUE 技术小游戏入口 ======================= -->
+    <section class="rgame-entry" id="ragrescue" aria-label="RAG RESCUE 技术小游戏">
+      <div class="rgame-entry__card reveal">
+        <div class="rgame-entry__glow" aria-hidden="true"></div>
+        <div class="rgame-entry__text">
+          <span class="rgame-entry__tag">MINI GAME · 技术小游戏</span>
+          <h3 class="rgame-entry__title">RAG RESCUE</h3>
+          <p class="rgame-entry__sub">Build. Run. Debug. Rescue the AI System.</p>
+        </div>
+        <button class="rgame-entry__btn" id="rgamePlayBtn" type="button">PLAY GAME
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M4 2.5v11l9-5.5-9-5.5Z"/></svg>
+        </button>
+      </div>
+      <p class="rgame-entry__note">拖拽组件 · 搭建工作流 · 运行模拟 · 排查故障 —— 本地确定性模拟，非真实模型推理</p>
+    </section>
+
     <!-- ======================= Experience & Honors ======================= -->
     <section class="exp section" id="experience">
       <div class="section__head">
@@ -296,6 +313,62 @@
     </div>
   </div>
 
+  <!-- RAG RESCUE 全屏游戏面板（独立命名空间 .rgame） -->
+  <div class="rgame" id="rgameRoot" hidden role="dialog" aria-modal="true" aria-label="RAG RESCUE 技术小游戏">
+    <div class="rgame__frame">
+      <header class="rgame__topbar">
+        <div class="rgame__brand">
+          <span class="rgame__logo">RAG RESCUE</span>
+          <span class="rgame__tagline">AI SYSTEM ENGINEER CHALLENGE</span>
+        </div>
+        <div class="rgame__levels" id="rgameLevels"></div>
+        <div class="rgame__status">
+          <span class="rgame__stat">检索质量<b id="rgameMQuality">--</b></span>
+          <span class="rgame__stat">答案依据<b id="rgameMGround">--</b></span>
+          <span class="rgame__stat">模拟耗时<b id="rgameMLatency">--</b></span>
+          <span class="rgame__stat">资源预算<b id="rgameMBudget">--</b></span>
+        </div>
+        <button class="rgame__exit" id="rgameExit" type="button">✕ 退出游戏</button>
+      </header>
+      <div class="rgame__goal" id="rgameGoal"></div>
+      <div class="rgame__main">
+        <aside class="rgame__sidebar">
+          <h4>COMPONENTS · 组件栏</h4>
+          <p class="rgame__hint">拖到画布（移动端点击添加）</p>
+          <div class="rgame__comps" id="rgameComps"></div>
+          <div class="rgame__sidehelp" id="rgameSideHelp"></div>
+        </aside>
+        <div class="rgame__stage">
+          <div class="rgame__canvas-wrap" id="rgameCanvasWrap">
+            <div class="rgame__canvas" id="rgameCanvas">
+              <svg class="rgame__edges" id="rgameEdges" width="2400" height="1600" aria-hidden="true"></svg>
+              <div class="rgame__win" id="rgameWin" hidden><div class="rgame__win-card" id="rgameWinCard"></div></div>
+            </div>
+          </div>
+          <div class="rgame__runbar">
+            <button class="rgame__run" id="rgameRun" type="button">▶ RUN WORKFLOW</button>
+            <button class="rgame__reset" id="rgameResetLevel" type="button">↺ 重置本关</button>
+            <span class="rgame__selectinfo" id="rgameSelectInfo">未选中节点</span>
+          </div>
+        </div>
+        <aside class="rgame__panel">
+          <h4>NODE CONFIG · 配置面板</h4>
+          <div class="rgame__cfg" id="rgameCfg"></div>
+        </aside>
+      </div>
+      <footer class="rgame__bottom">
+        <div class="rgame__logs-wrap">
+          <h4>EXECUTION LOG · 执行日志</h4>
+          <div class="rgame__logs" id="rgameLogs">等待运行…</div>
+        </div>
+        <div class="rgame__diag-wrap">
+          <h4>DIAGNOSTICS · 故障诊断</h4>
+          <div class="rgame__diag" id="rgameDiag">运行后显示诊断结果</div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div class="toast" id="toast" role="status"></div>
 
@@ -308,5 +381,6 @@
   <script src="js/projects.js"></script>
   <script src="js/lab.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/minigame.js"></script>
 </body>
 </html>
